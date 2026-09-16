@@ -75,7 +75,7 @@ This shows every moving part and how they connect, from the servers being watche
 
 Where the architecture diagram shows *systems*, this diagram shows *data* — what information moves, where it's temporarily stored, and who eventually receives it.
 
-![Data flow diagram showing how metrics and alerts move from servers through Prometheus, Alertmanager, IMPulse and Slack, with metrics storage and incident records as data stores](images/data-flow-diagram.png)
+![Data flow diagram showing how metrics and alerts move from servers through Prometheus, Alertmanager, IMPulse and Slack, with metrics storage and incident records as data stores](images/data-flow-diagram.gif)
 
 *Editable source: `images/data-flow-diagram.drawio` — open it at [app.diagrams.net](https://app.diagrams.net) to edit.*
 
