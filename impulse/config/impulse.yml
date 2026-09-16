@@ -1,0 +1,112 @@
+general:
+  timezone: Asia/Karachi
+  week_start: Mon
+  workday_start: "09:00"
+
+messenger:
+  type: slack
+
+  admin_users:
+    - Haider
+
+  channels:
+    production:
+      id:  C0Bxxxxxxx
+
+  users:
+    Haider:
+      id: U0Bxxxxxxx
+
+    Raiz:
+      id: U0xxxxxxx
+
+  user_groups:
+    devops:
+      users:
+        - Haider
+        - Raiz
+
+  chains:
+    production:
+      - user_group: devops
+
+    production_critical:
+      - user: Haider
+      - wait: 5m
+      - user: Raiz
+
+    production_warning:
+      - user_group: devops
+      - wait: 15m
+      - user: Haider
+
+
+incident:
+  notifications:
+    assignment: true
+    new_firing: true
+    partial_resolved: true
+    status_update: true
+
+  timeouts:
+    firing: 6h
+    unknown: 6h
+    resolved: 12h
+    closed: 90d
+
+
+route:
+  channel: production
+  chain: production
+
+  routes:
+    - matchers:
+        - severity="critical"
+      channel: production
+      chain: production_critical
+
+    - matchers:
+        - severity="warning"
+      channel: production
+      chain: production_warning
+
+
+ui:
+  columns:
+    - name: status
+      header: Status
+      visible: true
+      value: incident.status
+
+    - name: created
+      header: Created
+      type: datetime
+      value: incident.created
+
+    - name: alertname
+      header: Alert
+      value: payload.commonLabels.alertname
+
+    - name: instance
+      header: Server
+      value: payload.commonLabels.instance
+
+    - name: severity
+      header: Severity
+      value: payload.commonLabels.severity
+
+    - name: service
+      header: Service
+      value: payload.commonLabels.service
+
+  filters:
+    - severity=~"warning|critical"
+
+  sorting:
+    - severity: desc
+      order:
+        - info
+        - warning
+        - critical
+
+    - created: desc
